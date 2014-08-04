@@ -70,7 +70,10 @@
             .style("opacity", 0);
 
         var path = vis.selectAll("path")
-            .data(partition.nodes(timings.root))
+            .data(partition.nodes(timings.root)
+                .filter(function (d) {
+                    return (d.time / totalTime) > 0.00005;
+                }))
             .enter()
             .append("svg:path")
             .attr("d", arc)
@@ -152,8 +155,8 @@
         var time = document.createElement("span");
         time.innerHTML = " == " + (Math.round((d.time / 1000000) * 100) / 100) + "ms";
         /*if (d.node != null) {
-            time.innerHTML += " / avg: " + (Math.round((d.node.avg / 1000000) * 100) / 100) + "ms";
-        }*/
+         time.innerHTML += " / avg: " + (Math.round((d.node.avg / 1000000) * 100) / 100) + "ms";
+         }*/
         path.appendChild(time);
     }
 
@@ -185,7 +188,7 @@
                     var results = timeMatch.exec(line);
                     parsedInfo.push({
                         name: results[1],
-                        time: parseInt(results[4]),
+                        time: parseInt(results[2]),
                         count: results[3],
                         avg: results[4],
                         vio: results[5]
