@@ -7,6 +7,9 @@
     <script type="text/javascript" src="timings.js"></script>
 </head>
 <body>
+<div>
+    Click a section to zoom, click the center to zoom out
+</div>
 <div id="timing-path" style="height:32px;">
 
 </div>

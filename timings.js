@@ -2,16 +2,21 @@
     "use strict";
 
     var totalTime = 1;
+    var rootTime = 1;
+    var levelMod = 0;
     var timings = {};
+    var root;
 
     window.addEventListener("load", function () {
         console.log("Loaded");
 
         parseTimings();
 
-        totalTime = timings.root.time;
+        rootTime = totalTime = timings.root.time;
+        root = timings.root;
 
-        var size = 800;
+        var size = 600;
+        var radius = size / 2;
 
         var vis = d3.select("#chart")
             .append("svg:svg")
@@ -25,7 +30,7 @@
             .startAngle(function (d) {
                 var offset = 0;
                 var current = d;
-                while (current != null && current.parent != null) {
+                while (current != null && current.parent != null && current.level - levelMod != 0) {
                     var index = current.parent.children.indexOf(current);
                     for (var i = 0; i < index; i++) {
                         offset += current.parent.children[i].time;
@@ -37,7 +42,7 @@
             .endAngle(function (d) {
                 var offset = 0;
                 var current = d;
-                while (current != null && current.parent != null) {
+                while (current != null && current.parent != null && current.level - levelMod != 0) {
                     var index = current.parent.children.indexOf(current);
                     for (var i = 0; i < index; i++) {
                         offset += current.parent.children[i].time;
@@ -48,13 +53,14 @@
                 return (offset / totalTime) * Math.PI * 2;
             })
             .innerRadius(function (d) {
-                return d.level * 100;
+                return (d.level - levelMod) * 70;
             })
             .outerRadius(function (d) {
-                return (d.level + 1) * 100;
+                return (d.level + 1 - levelMod) * 70;
             });
 
         var partition = d3.layout.partition()
+            .size(Math.PI * 2, radius * radius)
             .value(function (d) {
                 return d.time;
             });
@@ -74,7 +80,41 @@
             })
             .attr("stroke", "#000000")
             .style("opacity", 1)
-            .on("mouseover", mouseOver);
+            .on("mouseover", mouseOver)
+            .on("click", function (node) {
+                if (node == root) {
+                    root = node.parent;
+                    if (root == null) {
+                        root = timings.root;
+                    }
+                    totalTime = root.time;
+                    levelMod = root.level;
+                    node = root;
+                } else {
+                    totalTime = node.time;
+                    levelMod = node.level;
+                    root = node;
+                }
+                d3.selectAll("path")
+                    .style("display", "inline");
+                d3.selectAll("path")
+                    .filter(function (d) {
+                        var current = d;
+                        while (current != null && current.parent != null) {
+                            if (current == node) {
+                                return false;
+                            }
+                            current = current.parent;
+                        }
+                        return current != node;
+                    })
+                    .style("display", "none");
+                d3.selectAll("path")
+                    .transition()
+                    .duration(50)
+                    .attr("d", arc);
+
+            });
 
         d3.select("#container").on("mouseleave", mouseLeave);
     });
