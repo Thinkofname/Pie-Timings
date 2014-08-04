@@ -154,9 +154,9 @@
         }
         var time = document.createElement("span");
         time.innerHTML = " == " + (Math.round((d.time / 1000000) * 100) / 100) + "ms";
-        /*if (d.node != null) {
-         time.innerHTML += " / avg: " + (Math.round((d.node.avg / 1000000) * 100) / 100) + "ms";
-         }*/
+        if (d.node != null) {
+            time.innerHTML += " / avg: " + (Math.round((d.node.avg / 1000000) * 100) / 100) + "ms";
+        }
         path.appendChild(time);
     }
 
