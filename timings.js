@@ -188,7 +188,7 @@
                     var results = timeMatch.exec(line);
                     parsedInfo.push({
                         name: results[1],
-                        time: parseInt(results[2]),
+                        time: parseInt(location.search.indexOf("avg") == -1 ? results[2] : results[4]),
                         count: results[3],
                         avg: results[4],
                         vio: results[5]
