@@ -1,0 +1,45 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "DejaVu Sans", "Verdana", sans-serif;
+    background-color: #fdf6e3;
+    color: #002b36;
+}
+
+body > * {
+    display: block;
+    margin: 1em auto;
+    width: 600px;
+    overflow: hidden;
+    text-align: center;
+}
+
+#timing-path {
+    width: 100%;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+td, th {
+    padding: 5px;
+    width: 300px;
+}
+
+th {
+    text-align: left;
+    font-weight: normal;
+}
+
+td {
+    text-align: right;
+}
+
+tr:nth-child(odd) {
+    background-color: #eee8d5;
+}
