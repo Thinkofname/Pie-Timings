@@ -120,6 +120,11 @@
             });
 
         d3.select("#container").on("mouseleave", mouseLeave);
+
+        var table = "<tr><td>Total Time</td><td> " + timings.root.full_time + "ns (" + Math.round(timings.root.full_time / 10000000) / 100 + "s)</td></tr>";
+        table += "<tr><td>Ticks</td><td> " + timings.root.ticks + "</td></tr>";
+        table += "<tr><td>TPS</td><td> " + Math.round(timings.root.ticks / timings.root.full_time * 100000000000) / 100 + "</td></tr>";
+        d3.select("#base-info").html(table);
     });
 
     function mouseOver(d) {
@@ -208,11 +213,16 @@
             parent: null,
             children: [],
             plugins: {},
-            color: "#FFFFFF"
+            color: "#FFFFFF",
+            ticks: NaN,
+            full_time: NaN
         };
+        
+        var full_server_tick = null;
 
         for (i = 0; i < parsedInfo.length; i++) {
             var info = parsedInfo[i];
+            if (info.name == "** Full Server Tick") full_server_tick = info;
             if (info.name.indexOf("**") == 0) continue;
 
             timings.root.time += info.time;
@@ -279,6 +289,11 @@
             var na = ev.names[name];
             na.time += info.time;
             na.node = info;
+        }
+
+        if (full_server_tick) {
+            timings.root.ticks = full_server_tick.count;
+            timings.root.full_time = full_server_tick.time;
         }
 
         // Colorise

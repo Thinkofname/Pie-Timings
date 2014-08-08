@@ -10,6 +10,9 @@
 <div>
     Click a section to zoom, click the center to zoom out
 </div>
+<table id="base-info">
+
+</table>
 <div id="timing-path" style="height:32px;">
 
 </div>
