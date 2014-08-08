@@ -121,9 +121,9 @@
 
         d3.select("#container").on("mouseleave", mouseLeave);
 
-        var table = "<tr><td>Total Time</td><td> " + timings.root.full_time + "ns (" + Math.round(timings.root.full_time / 10000000) / 100 + "s)</td></tr>";
-        table += "<tr><td>Ticks</td><td> " + timings.root.ticks + "</td></tr>";
-        table += "<tr><td>TPS</td><td> " + Math.round(timings.root.ticks / timings.root.full_time * 100000000000) / 100 + "</td></tr>";
+        var table = "<tr><th>Total Time</th><td> " + timings.root.full_time + "ns (" + Math.round(timings.root.full_time / 10000000) / 100 + "s)</td></tr>";
+        table += "<tr><th>Ticks</th><td> " + timings.root.ticks + "</td></tr>";
+        table += "<tr><th>TPS</th><td> " + Math.round(timings.root.ticks / timings.root.full_time * 100000000000) / 100 + "</td></tr>";
         d3.select("#base-info").html(table);
     });
 
@@ -213,7 +213,7 @@
             parent: null,
             children: [],
             plugins: {},
-            color: "#FFFFFF",
+            color: "#fdf6e3",
             ticks: NaN,
             full_time: NaN
         };
